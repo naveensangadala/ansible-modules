@@ -1,0 +1,13 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+   - name: Check Java
+     shell: command -v java
+     register: check_java
+     ignore_errors: True
+     changed_when: False
+
+   - name: RedHat - Ensure Java is installed
+     yum: name={{ java }} state=latest
+     when: ansible_os_family == 'RedHat' and check_java.rc > 0

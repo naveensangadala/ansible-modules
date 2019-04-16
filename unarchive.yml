@@ -1,0 +1,9 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+    - name: Unarchive claimsassure.zip
+      unarchive:
+       src: /app/text.zip
+       dest: /app
+       remote_src: yes

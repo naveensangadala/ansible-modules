@@ -1,0 +1,28 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+     - name: Starting Tomcat server
+       become: yes
+       command: "nohup /opt/apache-tomcat-7.0.61/bin/startup.sh"
+       register: appstat
+#      ignore_errors: true
+#      failed_when: false
+#      no_log: True
+
+
+     - name: Verifying the Tomcat server status
+       shell: "ps -ef | grep -v grep | grep -w tomcat | awk '{print $2}'"
+       register: appstat
+       ignore_errors: true
+       failed_when: false
+#      no_log: True
+
+     - name: Current Server status
+       debug:
+         msg: " Server process id: {{appstat.stdout}} and return code is: {{appstat.rc}}"
+
+     - name: Current Server status
+       debug:
+         msg: " Server is running"
+       when: (appstat.stdout != "") and (appstat.rc | int == 0)

@@ -1,0 +1,9 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+    - name: copy file from ansible-master to node
+      copy: 
+        src: /root/ansible/testfile.txt
+        dest: /root/testfile.txt
+       

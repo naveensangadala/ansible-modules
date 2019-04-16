@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Capturing deployment timestamp
+      local_action: command date '+%Y%m%d%H%M%S'
+      register: timestamp
+
+    - name: Creating Backup file
+      become: yes
+      archive:
+        path: /root/ansible/ansible-modules/aws-two-tier
+#        path: "{{target_dir}}/app"
+        dest: "/root/ansible/ansible-modules/aws-two-tier.zip"
+#        dest: "{{backup_dir}}/app-{{timestamp.stdout}}.zip"
+        format: zip
+        remove: yes
+      register: backupstat
+      ignore_errors: true

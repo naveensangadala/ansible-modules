@@ -1,0 +1,11 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+   - name: Creates directory claimsassure
+     file:
+      path: /root/test-dir
+      state: directory
+      mode: 0775
+      recurse: yes
+

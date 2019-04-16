@@ -1,0 +1,14 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+    - name: install apache web server
+      yum: pkg=httpd state=latest
+      notify: start the service
+
+    - name: check service
+      command: service httpd status
+
+  handlers:
+   - name: start the service
+     service: name=httpd state=restarted

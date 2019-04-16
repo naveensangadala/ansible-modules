@@ -1,0 +1,17 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+    - name: add the new server IP address to hosts file
+      lineinfile:
+           path: /home/ansible/hosts
+           insertafter: '\[localhost\]\nlocal-host-ipaddress\n'
+           regexp: '^\[localhost\]\nlocal-host-aiaddress\n'
+           line: '[new-host-name]'
+
+    - name: add the new server IP address to hosts file
+      lineinfile:
+           path: /home/ansible/hosts
+           insertafter: '^\[new-host-name\]'
+           regexp: '^\[new-host-name\]'
+           line: 'new-host-ipaddress'

@@ -1,0 +1,30 @@
+- name: Stop Tomcat
+  hosts: node
+  remote_user: root
+  gather_facts: no
+  tasks:
+    - name: Verifying the Tomcat server status
+      shell: "ps -ef | grep -v grep | grep -w tomcat | awk '{print $2}'"
+      register: appstat
+      ignore_errors: true
+      failed_when: false
+#      no_log: True
+
+    - name: Current Server status
+      debug:
+        msg: " Server is not running and return code is: {{appstat.rc}}"
+      when: (appstat.stdout == "") and (appstat.rc | int == 0)
+
+    - name: Current Server status
+      debug:
+        msg: " Server is Runing, process id: {{appstat.stdout}} and return code is: {{appstat.rc}}"
+      when: (appstat.stdout != "") and (appstat.rc | int == 0)
+
+    - name: Stopping Tomcat server
+      become: yes
+      command: "nohup /opt/apache-tomcat-7.0.61/bin/shutdown.sh"
+      register: appstat
+      when: (appstat.stdout != "") and (appstat.rc | int == 0)
+      ignore_errors: true
+      failed_when: false
+#      no_log: True

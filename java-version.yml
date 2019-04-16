@@ -1,0 +1,10 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+   - name: Get Java version
+     shell: java -version |& awk -F'"' '{print $2}'
+     register: java_version
+
+   - debug: 
+       msg: "{{java_version.stdout_lines}}"

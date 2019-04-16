@@ -1,0 +1,22 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+      - name: Check if java is installed
+        command: java -version
+        become_user: root
+        register: java_result
+        ignore_errors: True
+
+      - name: Checking Java Verion on Target host
+        debug:
+          msg: "Java version is:{{java_result.stderr_lines}}"
+
+      - debug:
+          msg: "Failed - Java is not installed"
+        when: java_result is failed
+
+      - debug:
+          msg: "Success - Java is installed"
+        when:  java_result is success
+

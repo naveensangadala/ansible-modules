@@ -1,0 +1,12 @@
+---
+- hosts: node
+  gather_facts: yes
+  tasks:
+    - name: Create a new ec2 key
+      ec2_key:
+          name: key-test
+          region: ap-south-1
+      register: ec2_key_result
+
+    - debug:
+        msg: "my aws key is: {{ec2_key_result.key.name}}"
