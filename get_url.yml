@@ -1,11 +1,11 @@
 ---
-- hosts:
+- hosts: testnode
   gather_facts: yes
   tasks:
     - name: Downloading jdk1.8.0_121.zip
       get_url: url={{item.url}} dest={{item.dest}}
       with_items:
         - {
-           url: 'http://services.com/artifact/jdk1.8.0_121.zip',
+           url: 'specify the url (http://services.com/artifact/jdk1.8.0_121.zip)',
            dest: '/app//jdk1.8.0_121.zip'
           }
